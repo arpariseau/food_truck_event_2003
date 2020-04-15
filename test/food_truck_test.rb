@@ -40,4 +40,22 @@ class FoodTruckTest < MiniTest::Test
     assert_equal 55, @food_truck.check_stock(@item1)
   end
 
+  def test_potential_revenue
+    @food_truck.stock(@item1, 35)
+    @food_truck.stock(@item2, 7)
+
+    food_truck2 = FoodTruck.new("Ba-Nom-a-Nom")
+    item3 = Item.new({name: "Peach-Raspberry Nice Cream", price: "$5.30"})
+    item4 = Item.new({name: "Banana Nice Cream", price: "$4.25"})
+    food_truck2.stock(item3, 25)
+    food_truck2.stock(item4, 50)
+
+    food_truck3 = FoodTruck.new("Palisade Peach Shack")
+    food_truck3.stock(@item1, 65)
+
+    assert_equal 148.75, @food_truck.potential_revenue
+    assert_equal 345.00, food_truck2.potential_revenue
+    assert_equal 243.75, food_truck3.potential_revenue
+  end
+
 end
