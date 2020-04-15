@@ -30,10 +30,18 @@ class Event
 
   def get_items
     all_items = []
-    @food_trucks.each do |truck|
-      all_items << truck.inventory.keys
-    end
+    @food_trucks.each {|truck| all_items << truck.inventory.keys}
     all_items.flatten.uniq
+  end
+
+  def overstocked_items
+    overstocked = []
+    total_inventory.each do |item, item_qty|
+      if item_qty[:quantity] > 50 && item_qty[:food_trucks].length > 1
+        overstocked << item
+      end
+    end
+    overstocked
   end
 
 end
