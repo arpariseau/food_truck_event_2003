@@ -8,7 +8,6 @@ require './lib/item'
 class EventTest < MiniTest::Test
 
   def setup
-    Date.stubs(:today).returns(Date.new(2020, 02, 24))
   @event = Event.new("South Pearl Street Farmers Market")
   @food_truck1 = FoodTruck.new("Rocky Mountain Pies")
   @food_truck2 = FoodTruck.new("Ba-Nom-a-Nom")
@@ -92,7 +91,23 @@ class EventTest < MiniTest::Test
   end
 
   def test_date
-    assert_equal "24/02/2020", @event.date
+    Date.stubs(:today).returns(Date.new(2020, 02, 24))
+    date_event = Event.new("South Pearl Street Farmers Market")
+    assert_equal "24/02/2020", date_event.date
+  end
+
+  def test_sell
+    item5 = Item.new({name: 'Onion Pie', price: '$25.00'})
+    @event.add_food_truck(@food_truck1)
+    @event.add_food_truck(@food_truck2)
+    @event.add_food_truck(@food_truck3)
+    assert_equal false, @event.sell(@item1, 200)
+    assert_equal false, @event.sell(item5, 1)
+    assert_equal true, @event.sell(@item4, 5)
+    assert_equal 45, @food_truck2.check_stock(@item4)
+    assert_equal true, @event.sell(@item1, 40)
+    assert_equal 0, @food_truck1.check_stock(@item1)
+    assert_equal 60, @food_truck3.check_stock(@item1)
   end
 
 end
