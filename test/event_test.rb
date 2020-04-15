@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'mocha/minitest'
 require './lib/event'
 require './lib/food_truck'
 require './lib/item'
@@ -7,6 +8,7 @@ require './lib/item'
 class EventTest < MiniTest::Test
 
   def setup
+    Date.stubs(:today).returns(Date.new(2020, 02, 24))
   @event = Event.new("South Pearl Street Farmers Market")
   @food_truck1 = FoodTruck.new("Rocky Mountain Pies")
   @food_truck2 = FoodTruck.new("Ba-Nom-a-Nom")
@@ -87,6 +89,10 @@ class EventTest < MiniTest::Test
     @event.add_food_truck(@food_truck3)
     assert_equal ["Apple Pie (Slice)", "Banana Nice Cream",
          "Peach Pie (Slice)", "Peach-Raspberry Nice Cream"], @event.sorted_item_list
+  end
+
+  def test_date
+    assert_equal "24/02/2020", @event.date
   end
 
 end
