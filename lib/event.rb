@@ -44,4 +44,8 @@ class Event
     overstocked
   end
 
+  def sorted_item_list
+    get_items.map {|item| item.name}.sort
+  end
+
 end
