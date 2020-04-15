@@ -57,9 +57,9 @@ class Event
     @food_trucks.each do |truck|
       if quantity > truck.check_stock(item)
         quantity -= truck.check_stock(item)
-        truck.stock(item, (0 - truck.check_stock(item)))
+        truck.stock(item, -truck.check_stock(item))
       else
-        truck.stock(item, (0 - quantity))
+        truck.stock(item, -quantity)
       end
     end
     true
